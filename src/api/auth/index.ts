@@ -21,4 +21,4 @@ class  Auth<T> {
         return server.post('logout')
     }
 }
-export default new Auth<ResponseData>()
+export default new Auth<ResponseData<any>>()

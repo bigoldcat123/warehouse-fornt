@@ -28,8 +28,8 @@ const checkUsername = (rule: any, value: string, callback: any) => {
         return callback(new Error('Please input the userName'))
     }
     setTimeout(() => {
-        if (value.length < 10) {
-            callback(new Error('length must be greater than 10'))
+        if (value.length < 1) {
+            callback(new Error('length must be greater than 1'))
         } else {
             callback()
         }
@@ -60,13 +60,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
         if (valid) {
             Auth.daoLogin(ruleForm).then((res) => {
                 currentUser.setValue(res.data.value)
-                router.back()
+                router.push('/warehouse')
             }).catch((err) => {
                 console.log(err);
             })
         } else {
             console.log('error submit!')
-            return false
         }
     })
 }

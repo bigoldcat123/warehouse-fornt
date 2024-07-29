@@ -8,7 +8,39 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      children:[
+        {
+          path: '/warehouse',
+          name: 'warehouse',
+          component: () => import('@/views/warehouse/index.vue')
+        },
+        {
+          path: '/house',
+          name: 'house',
+          component: () => import('@/views/house/index.vue')
+        },
+        {
+          path: '/alarm',
+          name: 'alarm',
+          component: () => import('@/views/alarm/index.vue')
+        },
+        {
+          path: '/data',
+          name: 'data',
+          component: () => import('@/views/data/index.vue')
+        },
+        {
+          path: '/user',
+          name: 'user',
+          component: () => import('@/views/user/index.vue')
+        },
+        {
+          path: '/entry',
+          name: 'entry',
+          component: () => import('@/views/entry/index.vue')
+        },
+      ]
     },
     {
       path: '/login',

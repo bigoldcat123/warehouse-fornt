@@ -5,11 +5,11 @@
 
 ////////////////////////////////////////////////
 //com.example.demo.common.R
-declare type ResponseData = {
+declare type ResponseData<T> = {
     code:string,
     message:string,
     show:boolean,
-    value:any
+    value:T
 }
 //com.example.demo.common.CurrentUser
 declare type UserDetail = {

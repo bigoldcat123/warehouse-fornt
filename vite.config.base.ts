@@ -22,7 +22,7 @@ export default defineConfig(
         enforce:'pre',
         transform(code, id, options) {
             if(!id.includes('node_modules')) {
-              console.log(id);
+              // console.log(id);
             }
         },
       },
