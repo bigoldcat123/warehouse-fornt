@@ -27,6 +27,9 @@ class House  {
     update(house:type_House) {
         return server.put(preFix,house)
     }
+    kv() {
+        return server.get(preFix + '/kv')
+    }
 }
 
 export default new House()

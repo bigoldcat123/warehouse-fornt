@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useCurrentUserStore } from "@/stores/currentUser";
 import { ElMessage } from 'element-plus'
-
+import { useRouter } from "vue-router";
 console.log(import.meta.env);
 
 
@@ -42,6 +42,8 @@ server.interceptors.response.use(function (response) {
   if (response.data.code !== '200') {
     return Promise.reject(response.data.message)
   }
+
+  
   return response;
 }, function (error) {
   return Promise.reject(error);
