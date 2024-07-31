@@ -7,7 +7,7 @@
       <el-form-item label="仓房编号" prop="houseNo">
         <el-input v-model="ruleForm.houseNo" />
       </el-form-item>
-      <el-form-item label="仓库名" prop="houseName">
+      <el-form-item label="仓房名" prop="houseName">
         <el-input v-model="ruleForm.houseName" />
       </el-form-item>
       <el-form-item label="仓房地址" prop="houseAddr">

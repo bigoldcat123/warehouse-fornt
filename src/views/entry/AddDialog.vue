@@ -4,10 +4,16 @@
     <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" status-icon :rules="rules" label-width="auto"
       class="demo-ruleForm">
 
-      <el-form-item label="仓库" prop="houseID">
+      <el-form-item label="仓房" prop="houseID">
         <!-- <el-input v-model="ruleForm.houseID" autocomplete="off" /> -->
         <el-select v-model="ruleForm.houseID" placeholder="Select" style="width: 240px">
           <el-option v-for="item in kv" :key="item.key" :label="item.value" :value="item.key" />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="管理人员" prop="stockman">
+        <!-- <el-input v-model="ruleForm.houseID" autocomplete="off" /> -->
+        <el-select v-model="ruleForm.stockman" placeholder="Select" style="width: 240px">
+          <el-option v-for="item in userKv" :key="item.key" :label="item.value" :value="item.key" />
         </el-select>
       </el-form-item>
       <el-form-item label="品种" prop="breed">
@@ -33,6 +39,7 @@ import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue'
 import house from '@/api/house';
 import entry, { type type_Entry } from '@/api/entry';
+import user from '@/api/user';
 const prop = defineProps<{
   dialogVisible: boolean,
 }>()
@@ -43,6 +50,10 @@ const emit = defineEmits<{
 const kv = ref<any[]>([])
 house.kv().then(res => {
   kv.value = res.data.value
+})
+const userKv = ref<{key:string,value:string}[]>([])
+user.kv().then(res => {
+  userKv.value = res.data.value
 })
 function submit() {
   emit('close')
@@ -61,6 +72,7 @@ const validate = (rule: any, value: any, callback: any) => {
 
 const ruleForm = reactive({
   houseID: undefined,
+  stockman: undefined,
   breed: '',
   entryTime: '',
   water: undefined
@@ -68,6 +80,7 @@ const ruleForm = reactive({
 
 const rules = reactive<FormRules<typeof ruleForm>>({
   houseID: [{ validator: validate, trigger: 'blur' }],
+  stockman: [{ validator: validate, trigger: 'blur' }],
   breed: [{ validator: validate, trigger: 'blur' }],
   entryTime: [{ validator: validate, trigger: 'blur' }],
   water: [{ validator: validate, trigger: 'blur' }],
@@ -86,6 +99,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
       ruleForm.breed = ''
       ruleForm.entryTime = ''
       ruleForm.water = undefined
+      ruleForm.stockman = undefined
       emit('close')
     } else {
       console.log('error submit!')

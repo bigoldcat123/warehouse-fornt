@@ -11,6 +11,16 @@
                 </template>
             </el-table-column>
             <el-table-column prop="breed" label="品种" />
+            <el-table-column label="入库人" >
+                <template #default="scope">
+                    {{ userKv.filter(x=>x.key == scope.row.entryUserId)[0]?.value }}
+                </template>
+            </el-table-column>
+            <el-table-column label="管理人" >
+                <template #default="scope">
+                    {{ userKv.filter(x=>x.key == scope.row.stockman)[0]?.value }}
+                </template>
+            </el-table-column>
             <el-table-column prop="entryTime" label="入库时间" />
             <el-table-column prop="water" label="GrainWater" />
             <el-table-column label="操作">
@@ -31,6 +41,7 @@ import entry, { type type_Entry } from '@/api/entry';
 import house from '@/api/house';
 import AddDialog from './AddDialog.vue';
 import UpdateDialog from './UpdateDialog.vue';
+import user from '@/api/user';
 const list = ref<type_Entry[]>([])
 const addDialog = ref(false)
 const updateDialog = ref(false)
@@ -43,6 +54,10 @@ function fetchData() {
 const kv = ref<any[]>([])
 house.kv().then(res => {
     kv.value = res.data.value
+})
+const userKv = ref<any[]>([])
+user.kv().then(res => {
+    userKv.value = res.data.value
 })
 fetchData()
 </script>

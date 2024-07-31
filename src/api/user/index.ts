@@ -29,6 +29,9 @@ class User {
     deleteById(id:number) {
         return server.delete<ResponseData<any>>(`${preFix}/${id}`)
     }
+    kv() {
+        return server.get<ResponseData<{key:string,value:string}[]>>(`${preFix}/kv`)
+    }
 }
 
 export default new User()

@@ -12,6 +12,18 @@
           <el-option v-for="item in kv" :key="item.key" :label="item.value" :value="item.key" />
         </el-select>
       </el-form-item>
+      <el-form-item label="管理人员" prop="stockman">
+        <!-- <el-input v-model="ruleForm.houseID" autocomplete="off" /> -->
+        <el-select v-model="ruleForm.stockman" placeholder="Select" style="width: 240px">
+          <el-option v-for="item in userKv" :key="item.key" :label="item.value" :value="item.key" />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="入库人" prop="stockman">
+        <!-- <el-input v-model="ruleForm.houseID" autocomplete="off" /> -->
+        <el-select v-model="ruleForm.entryUserId" placeholder="Select" style="width: 240px">
+          <el-option v-for="item in userKv" :key="item.key" :label="item.value" :value="item.key" />
+        </el-select>
+      </el-form-item>
       <el-form-item label="品种" prop="breed">
         <el-input v-model="ruleForm.breed" autocomplete="off" />
       </el-form-item>
@@ -35,6 +47,7 @@ import type { FormInstance, FormRules } from 'element-plus';
 import { onUpdated, reactive, ref } from 'vue'
 import house from '@/api/house';
 import entry, { type type_Entry } from '@/api/entry';
+import user from '@/api/user';
 const prop = defineProps<{
   dialogVisible: boolean,
   entry: type_Entry | undefined
@@ -47,6 +60,10 @@ const visiable = ref(false)
 const kv = ref<any[]>([])
 house.kv().then(res => {
   kv.value = res.data.value
+})
+const userKv = ref<{key:string,value:string}[]>([])
+user.kv().then(res => {
+  userKv.value = res.data.value
 })
 const handleClose = (done: () => void) => {
   emit('close')
@@ -65,7 +82,9 @@ const ruleForm = reactive<any>({
   houseID: 0,
   breed: '',
   entryTime: '',
-  water: 0
+  water: 0,
+  stockman:0,
+  entryUserId: 0
 })
 onUpdated(() => {
   visiable.value = prop.dialogVisible
@@ -74,6 +93,8 @@ onUpdated(() => {
   ruleForm.breed = prop.entry?.breed
   ruleForm.entryTime = prop.entry?.entryTime
   ruleForm.water = prop.entry?.water
+  ruleForm.stockman = prop.entry?.stockman
+  ruleForm.entryUserId = prop.entry?.entryUserId
 })
 const rules = reactive<FormRules<typeof ruleForm>>({
 

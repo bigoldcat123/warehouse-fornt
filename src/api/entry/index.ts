@@ -8,6 +8,8 @@ export interface type_Entry {
     breed:string
     entryTime:string
     water:number
+    stockman:number
+    entryUserId:number
 }
 
 class Entry {
