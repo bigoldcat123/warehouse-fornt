@@ -67,7 +67,7 @@ function logout() {
         </div>
         <div class=" flex-1 flex flex-col">
             <div>
-                <button @click="logout">logout</button>
+                <el-button type="danger" @click="logout">退出</el-button>
             </div>
             <div class="p-8 w-full">
                 <RouterView />

@@ -15,6 +15,12 @@ declare type ResponseData<T> = {
 declare type UserDetail = {
     id:string
     name: string
+     sex:string;
+    companyID:number;
+     position:string;
+     phone:string;
+     priv:string;
+     username:string
 }
 //com.example.demo.common.CurrentUserVo
 declare type CurrentUser = {

@@ -3,10 +3,6 @@
         <div class="container">
             <component :is="authList[currentAuth]"></component>
         </div>
-        <div class="bottombtns">
-            <button @click="currentAuth = 0"> password</button>
-            <button @click="currentAuth = 1"> mail</button>
-        </div>
     </div>
 
 </template>

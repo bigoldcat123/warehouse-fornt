@@ -13,6 +13,7 @@ export interface type_User {
     priv:string
 }
 
+export const privList = ['所有数据','一般问题','严重问题','报警核准']
 class User {
     list() {
         return server.get<ResponseData<type_User[]>>(preFix)

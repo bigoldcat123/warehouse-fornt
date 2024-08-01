@@ -3,18 +3,18 @@
         <ElButton type="primary" @click="$router.go(-1)">back</ElButton>
     </div>
     <div class=" flex flex-wrap">
-        <div class=" item">品种：{{ detail?.breed }}</div>
-        <div class=" item" >水分：{{ detail?.water }}</div>
-        <div class=" item" >入库时间：{{ detail?.entryTime }}</div>
-        <div class=" item" >保管：{{ detail?.keeper }}</div>
-        <div class=" item" >仓温：{{ detail?.inTemperature }}</div>
-        <div class=" item" >外温度：{{ detail?.outTemperature }}</div>
-        <div class=" item" >仓湿：{{ detail?.inHumidity }}</div>
-        <div class=" item" >外湿：{{ detail?.outHumidity }}</div>
-        <div class=" item" >高温：{{ $route.query.maxTemperature }}</div>
-        <div class=" item" >低温：{{ $route.query.minTemperature }}</div>
-        <div class=" item" >均温：{{ $route.query.avgTemperature }}</div>
-        <div class=" item" v-show="item.length > 0" v-for="item,key in ($route.query.layerAvg as unknown as string ).split('|')">{{ (key + 1) + ' 层：' + item }}</div>
+        <el-tag type="primary" class=" item">品种：{{ detail?.breed }}</el-tag>
+        <el-tag type="primary" class=" item" >水分：{{ detail?.water }}</el-tag>
+        <el-tag type="primary" class=" item" >入库时间：{{ detail?.entryTime }}</el-tag>
+        <el-tag type="primary" class=" item" >保管：{{ detail?.keeper }}</el-tag>
+        <el-tag type="primary" class=" item" >仓温：{{ detail?.inTemperature }}</el-tag>
+        <el-tag type="primary" class=" item" >外温度：{{ detail?.outTemperature }}</el-tag>
+        <el-tag type="primary" class=" item" >仓湿：{{ detail?.inHumidity }}</el-tag>
+        <el-tag type="primary" class=" item" >外湿：{{ detail?.outHumidity }}</el-tag>
+        <el-tag type="primary" class=" item" >高温：{{ $route.query.maxTemperature }}</el-tag>
+        <el-tag type="primary" class=" item" >低温：{{ $route.query.minTemperature }}</el-tag>
+        <el-tag type="primary" class=" item" >均温：{{ $route.query.avgTemperature }}</el-tag>
+        <el-tag type="primary" class=" item" v-show="item.length > 0" v-for="item,key in ($route.query.layerAvg as unknown as string ).split('|')">{{ (key + 1) + ' 层：' + item }}</el-tag>
     </div>
     <div class="flex flex-wrap justify-evenly">
         <div class="m-2" v-for="item, key in detail?.list">
@@ -45,8 +45,8 @@ data.getDetil(route.query.id as unknown as number).then(res => {
 </script>
 <style scoped>
 .item{
-    background-color: rgb(155, 255, 4);
-    padding: 0.5rem;
+    font-size: 1rem;    
+    padding: 1rem;
     border-radius: 0.5rem;
     margin-right: 1rem;
     margin-top: 1rem;

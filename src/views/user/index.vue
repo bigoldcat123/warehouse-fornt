@@ -35,7 +35,7 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
-import user , { type type_User } from '@/api/user';
+import user , { type type_User ,privList} from '@/api/user';
 import house from '@/api/house';
 import AddDialog from './AddDialog.vue';
 import UpdateDialog from './UpdateDialog.vue';
@@ -43,7 +43,6 @@ const list = ref<type_User[]>([])
 const addDialog = ref(false)
 const updateDialog = ref(false)
 const current = ref<type_User>()
-const privList = ['所有数据','一般问题','严重问题','报警核准']
 function fetchData() {
     user.list().then(res => {
         list.value = res.data.value

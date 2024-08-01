@@ -12,7 +12,8 @@ const SHOW_WARNING = "3";
 
 const server = axios.create()
 
-server.defaults.baseURL = '/api/'
+export const api_PreFix = 'api'
+server.defaults.baseURL = '/'+api_PreFix+'/'
 
 server.interceptors.request.use(function (config) {
   const currentUser = useCurrentUserStore()

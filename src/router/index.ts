@@ -45,6 +45,11 @@ const router = createRouter({
           name: 'entry',
           component: () => import('@/views/entry/index.vue')
         },
+        {
+          path: '/show',
+          name: 'show',
+          component: () => import('@/views/show/index.vue')
+        },
       ]
     },
     {

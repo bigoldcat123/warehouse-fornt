@@ -22,6 +22,9 @@ export const useCurrentUserStore = defineStore('currentUser', () => {
   function getUserDetail() {
     return currentUser.value?.detail
   }
+  function getPriv() {
+    return currentUser.value?.detail.priv.split(',')
+  }
 
-  return { isLogin, setValue, logout, getToken,getUserDetail}
+  return { isLogin, setValue, logout, getToken,getUserDetail,getPriv}
 })

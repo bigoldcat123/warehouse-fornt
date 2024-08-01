@@ -22,8 +22,16 @@
             <el-table-column prop="x" label="行数" width="60"  />
             <el-table-column prop="y" label="列数" width="60"  />
             <el-table-column prop="z" label="层数" width="60"  />
-            <el-table-column prop="y" label="云图" width="60"  />
-            <el-table-column prop="z" label="曲线" width="60"  />
+            <el-table-column prop="yuntu" label="云图" width="80"  >
+                <template #default="scope">
+                    <el-button type="primary" size="small" @click="() => $router.push({path:'/show',query:{imgs:scope.row.yuntu}})">查看</el-button>
+                </template>
+            </el-table-column>
+            <el-table-column prop="yuntu" label="曲线" width="80"  >
+                <template #default="scope">
+                    <el-button type="primary" size="small" @click="() => $router.push({path:'/show',query:{imgs:scope.row.quxian}})">查看</el-button>
+                </template>
+            </el-table-column>
             <el-table-column label="操作">
                 <template #default="scope">
                     <el-button type="primary" size="small" @click="() => {current= scope.row;updateDialog = true;}">编辑</el-button>

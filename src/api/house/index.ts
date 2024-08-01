@@ -11,6 +11,8 @@ export type type_House = {
     z:number,
     x:number,
     y:number
+    yuntu:string,
+    quxian:string
 }
 
 class House  {

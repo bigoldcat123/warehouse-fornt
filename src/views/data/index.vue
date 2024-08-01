@@ -1,5 +1,10 @@
 <template>
     <div class="mb-4">
+       起始时间 <el-date-picker v-model="from" type="datetime" value-format="YYYY-MM-DD HH:mm:ss" placeholder="选择入库时间" />
+       结束时间 <el-date-picker v-model="to" type="datetime" value-format="YYYY-MM-DD HH:mm:ss" placeholder="选择入库时间" />
+       <el-input v-model="houseName" class="max-w-48 m-2" placeholder="仓房名" />
+       <el-input v-model="warehouseName" class="max-w-48 m-2" placeholder="仓库名" />
+       <el-button type="success" @click="fetchData">搜索</el-button>
     </div>
     <div>
         <el-table :data="list" border>
@@ -28,13 +33,16 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
-import warehouse, { type type_WareHouse } from '@/api/warehouse';
 import data, {type type_Data} from '@/api/data';
+
 const list = ref<type_Data[]>([])
-const updateDialog = ref(false)
-const current = ref<type_Data>()
+const from = ref<string | null>(null)
+const to = ref<string | null>(null)
+const houseName = ref<string | null>(null)
+const warehouseName = ref<string | null>(null)
+
 function fetchData() {
-    data.list().then(res => {
+    data.list(from.value,to.value,houseName.value,warehouseName.value).then(res => {
         list.value = res.data.value
     })
 }
