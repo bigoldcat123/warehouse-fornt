@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="visiable" title="新增仓库" :before-close="handleClose" width="500">
+  <el-dialog v-model="visiable" title="更改用户" :before-close="handleClose" width="500">
 
     <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" status-icon :rules="rules" label-width="auto"
       class="demo-ruleForm">
@@ -7,10 +7,10 @@
         <el-input disabled v-model="ruleForm.id" />
       </el-form-item>
       <el-form-item label="用户名" prop="username">
-        <el-input v-model="ruleForm.username" />
+        <el-input :disabled="prop.current?.username == 'admin'" v-model="ruleForm.username" />
       </el-form-item>
       <el-form-item label="密码">
-        <el-input type="password" v-model="ruleForm.password" />
+        <el-input :disabled="prop.current?.username == 'admin'" type="password" v-model="ruleForm.password" />
       </el-form-item>
       <el-form-item label="姓名" prop="name">
         <el-input v-model="ruleForm.name" />

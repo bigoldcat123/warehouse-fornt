@@ -11,10 +11,15 @@ export interface type_Entry {
     stockman:number
     entryUserId:number
 }
-
+type EntryQuery = {
+    warehouseId?:number,
+    houseId?:number,
+    from?:string,
+    to?:string
+}
 class Entry {
-    list() {
-        return server.get<ResponseData<type_Entry[]>>('entry')
+    list(query:EntryQuery,current:number,size:number) {
+        return server.post<ResponseData<Page<type_Entry>>>('entry' + `/${current}/${size}`,query)
     }
 
     add(entry:type_Entry | any) {

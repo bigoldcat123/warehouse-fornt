@@ -17,8 +17,8 @@ export type type_House = {
 
 class House  {
 
-    list() {
-        return server.get<ResponseData<type_House[]>>(preFix)
+    list(current:number,size:number) {
+        return server.get<ResponseData<Page<type_House>>>(preFix + `?current=${current}&size=${size}`)
     }
     add(house:type_House) {
         return server.post(preFix,house)
@@ -31,6 +31,9 @@ class House  {
     }
     kv() {
         return server.get(preFix + '/kv')
+    }
+    findByWarehouseId(id:number) {
+        return server.get(preFix + '/kv/' + id)
     }
 }
 

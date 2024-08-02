@@ -8,8 +8,8 @@ export type type_WareHouse = {
     warehouseAddress:string
 }
 class WareHouse {
-     list() {
-        return server.get<ResponseData<type_WareHouse[]>>(preFix)
+     list(current:number,size:number) { 
+        return server.get<ResponseData<Page<type_WareHouse>>>(preFix + `?current=${current}&size=${size}`)
     }
     add(warehouse:type_WareHouse) {
         return server.post(preFix,warehouse)
@@ -22,6 +22,12 @@ class WareHouse {
     }
     kv() {
         return server.get(preFix + '/kv')
+    }
+    belongKv(){
+        return server.get(preFix + '/belong/kv')
+    }
+    getWarehouseIdBy(houseID:number) {
+        return server.get(preFix + '/getWarehouseIdBy/' + houseID)
     }
 }
 

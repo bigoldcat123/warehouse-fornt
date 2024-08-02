@@ -17,8 +17,8 @@ export interface type_Alarm {
 }
 
 class Alarm {
-    list(level?:string[],type?:string[]) {
-        return server.post<ResponseData<type_Alarm[]>>(preFix,{level,type})
+    list(level?:string[],type?:string[],verify?:string[],current?:number,size?:number) {
+        return server.post<ResponseData<Page<type_Alarm>>>(preFix + `/${current}/${size}`,{level,type,verify})
     }
     handle(id:number,handle:string){
         return server.put<ResponseData<any>>(preFix,{id,handle})

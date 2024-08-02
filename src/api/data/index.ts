@@ -34,8 +34,8 @@ export type type_Data_Detail = {
        list:Array<Array<Array<string>>>
 }
 class Data {
-    list(from?:string | null,to?:string| null,houseName?:string| null,warehouseName?:string| null) {
-        return server.post<ResponseData<type_Data[]>>(preFix,{from,to,houseName,warehouseName})
+    list(from?:string | null,to?:string| null,houseName?:string| null,warehouseName?:string| null,current?:number,size?:number) {
+        return server.post<ResponseData<Page<type_Data>>>(preFix + `/${current}/${size}`,{from,to,houseName,warehouseName})
     }
     getDetil(id:number) {
         return server.get<ResponseData<type_Data_Detail>>(`${preFix}/${id}`)

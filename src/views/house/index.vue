@@ -8,7 +8,7 @@
         </span>
     </div>
     <div>
-        <el-table :data="list" border style="width: 100%">
+        <el-table :data="list?.records" border style="width: 100%">
             <!-- <el-table-column prop="id" label="ID" width="60" /> -->
             <el-table-column prop="houseNo" label="仓房编号" />
             <el-table-column prop="houseName" label="仓房名" />
@@ -39,6 +39,7 @@
                 </template>
             </el-table-column>
         </el-table>
+        <el-pagination @current-change="pagechange" :default-page-size="size"  :page-count="list?.pages" layout="prev, pager, next"  />
     </div>
     <AddDialog :kv="kv" :dialog-visible="addDialog" @refresh="fetchData" @close="addDialog = false"></AddDialog>
     <UpdateDialog :kv="kv"  :house="current!" :dialog-visible="updateDialog" @refresh="fetchData" @close="updateDialog = false"></UpdateDialog>
@@ -49,26 +50,33 @@ import house, { type type_House } from '@/api/house';
 import AddDialog from './AddDialog.vue';
 import UpdateDialog from './UpdateDialog.vue';
 import warehouse from '@/api/warehouse';
-const list = ref<type_House[]>([])
-    const sapre_list = ref<type_House[]>([])
+const list = ref<Page<type_House>>()
+    const sapre_list = ref<Page<type_House>>()
 const addDialog = ref(false)
 const updateDialog = ref(false)
 const current = ref<type_House>()
 const kv = ref<any[]>([])
 const warehouseName = ref('')
 const houseNo = ref('')
-warehouse.kv().then(res => {
+warehouse.belongKv().then(res => {
   kv.value = res.data.value
 })
+
+const currentpage = ref(1)
+const size = ref(10)
 function fetchData() {
-    house.list().then(res => {
+    house.list(currentpage.value,size.value).then(res => {
         list.value = res.data.value
         sapre_list.value = res.data.value
-        current.value = list.value[0]
+        current.value = list.value.records[0]
     })
 }
+function pagechange(page: number) {
+    currentpage.value = page
+    fetchData()
+}
 function searchList() {
-    list.value = sapre_list.value.filter(x => {
+    list.value!.records = sapre_list.value!.records.filter(x => {
         return kv.value.filter(s=>s.key == x.warehouseID)[0]?.value.includes(warehouseName.value) && x.houseNo.includes(houseNo.value)
     })
 }

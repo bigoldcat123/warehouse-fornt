@@ -3,8 +3,14 @@
 
     <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" status-icon :rules="rules" label-width="auto"
       class="demo-ruleForm">
-      <el-form-item label="id" >
-        <el-input disabled v-model="ruleForm.id"/>
+      <el-form-item label="id">
+        <el-input disabled v-model="ruleForm.id" />
+      </el-form-item>
+      <el-form-item label="仓库" prop="houseID">
+        <!-- <el-input v-model="ruleForm.houseID" autocomplete="off" /> -->
+        <el-select @change="warehouseChange" v-model="p" placeholder="Select" style="width: 240px">
+          <el-option v-for="item in warehouekv" :key="item.key" :label="item.value" :value="item.key" />
+        </el-select>
       </el-form-item>
       <el-form-item label="仓库" prop="houseID">
         <!-- <el-input v-model="ruleForm.houseID" autocomplete="off" /> -->
@@ -20,15 +26,16 @@
       </el-form-item>
       <el-form-item label="入库人" prop="stockman">
         <!-- <el-input v-model="ruleForm.houseID" autocomplete="off" /> -->
-        <el-select v-model="ruleForm.entryUserId" placeholder="Select" style="width: 240px">
-          <el-option v-for="item in userKv" :key="item.key" :label="item.value" :value="item.key" />
+        <el-select disabled v-model="ruleForm.entryUserId" placeholder="Select" style="width: 240px">
+          <el-option v-for="item in AlluserKv" :key="item.key" :label="item.value" :value="item.key" />
         </el-select>
       </el-form-item>
       <el-form-item label="品种" prop="breed">
         <el-input v-model="ruleForm.breed" autocomplete="off" />
       </el-form-item>
       <el-form-item label="入库时间" prop="entryTime">
-        <el-date-picker v-model="ruleForm.entryTime" type="datetime" value-format="YYYY-MM-DD HH:mm:ss" placeholder="选择入库时间" />
+        <el-date-picker v-model="ruleForm.entryTime" type="datetime" value-format="YYYY-MM-DD HH:mm:ss"
+          placeholder="选择入库时间" />
       </el-form-item>
       <el-form-item label="GrainWater" prop="water">
         <el-input-number v-model="ruleForm.water" :precision="2" :step="0.1" :max="99999" />
@@ -48,6 +55,7 @@ import { onUpdated, reactive, ref } from 'vue'
 import house from '@/api/house';
 import entry, { type type_Entry } from '@/api/entry';
 import user from '@/api/user';
+import warehouse from '@/api/warehouse';
 const prop = defineProps<{
   dialogVisible: boolean,
   entry: type_Entry | undefined
@@ -58,17 +66,29 @@ const emit = defineEmits<{
 }>()
 const visiable = ref(false)
 const kv = ref<any[]>([])
-house.kv().then(res => {
-  kv.value = res.data.value
-})
-const userKv = ref<{key:string,value:string}[]>([])
+const AlluserKv = ref<any[]>([])
+const p = ref()
 user.kv().then(res => {
-  userKv.value = res.data.value
+  AlluserKv.value = res.data.value
 })
+const userKv = ref<{ key: string, value: string }[]>([])
+
 const handleClose = (done: () => void) => {
   emit('close')
 }
 const ruleFormRef = ref<FormInstance>()
+const warehouekv = ref<any[]>([])
+warehouse.belongKv().then(res => {
+  warehouekv.value = res.data.value
+})
+
+function warehouseChange(value: any) {
+  console.log(value);
+  house.findByWarehouseId(value).then(res => {
+    kv.value = res.data.value
+  })
+  ruleForm.houseID = undefined
+}
 
 const validate = (rule: any, value: any, callback: any) => {
   if (!value) {
@@ -83,7 +103,7 @@ const ruleForm = reactive<any>({
   breed: '',
   entryTime: '',
   water: 0,
-  stockman:0,
+  stockman: 0,
   entryUserId: 0
 })
 onUpdated(() => {
@@ -95,6 +115,16 @@ onUpdated(() => {
   ruleForm.water = prop.entry?.water
   ruleForm.stockman = prop.entry?.stockman
   ruleForm.entryUserId = prop.entry?.entryUserId
+  warehouse.getWarehouseIdBy(ruleForm.houseID).then(res => {
+    p.value = res.data.value
+    house.findByWarehouseId(p.value).then(res => {
+      kv.value = res.data.value
+    })
+    user.getUsersByWarehouseId(p.value).then(res => {
+  userKv.value = res.data.value
+})
+  })
+
 })
 const rules = reactive<FormRules<typeof ruleForm>>({
 

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="visiable" title="新增仓库" :before-close="handleClose" width="500">
+  <el-dialog v-model="visiable" title="新增用户" :before-close="handleClose" width="500">
 
     <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" status-icon :rules="rules" label-width="auto"
       class="demo-ruleForm">

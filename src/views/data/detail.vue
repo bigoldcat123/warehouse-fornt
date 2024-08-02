@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ElButton type="primary" @click="$router.go(-1)">back</ElButton>
+        <ElButton type="primary" @click="$router.go(-1)">返回</ElButton>
     </div>
     <div class=" flex flex-wrap">
         <el-tag type="primary" class=" item">品种：{{ detail?.breed }}</el-tag>
@@ -53,7 +53,7 @@ data.getDetil(route.query.id as unknown as number).then(res => {
     cursor: pointer;
 }
 .titem{
-    background-color: rgb(155, 255, 4);
+    background-color: rgb(205, 229, 254);
     padding: 0.25rem;
     border-radius: 0.5rem;
     margin-right: 0.25rem;

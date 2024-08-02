@@ -7,7 +7,7 @@
        <el-button type="success" @click="fetchData">搜索</el-button>
     </div>
     <div>
-        <el-table :data="list" border>
+        <el-table :data="list?.records" border>
             <!-- <el-table-column prop="id" label="ID" /> -->
             <el-table-column prop="houseId" label="仓房编号" />
             <el-table-column prop="houseName" label="仓房名" />
@@ -29,20 +29,27 @@
                 </template>
             </el-table-column>
         </el-table>
+
+        <el-pagination @current-change="pagechange" :default-page-size="size"  :page-count="list?.pages" layout="prev, pager, next"  />
     </div>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
 import data, {type type_Data} from '@/api/data';
 
-const list = ref<type_Data[]>([])
+const list = ref<Page<type_Data>>()
 const from = ref<string | null>(null)
 const to = ref<string | null>(null)
 const houseName = ref<string | null>(null)
 const warehouseName = ref<string | null>(null)
-
+const currentpage = ref(1)
+const size = ref(10)
+function pagechange(page:number) {
+    currentpage.value = page
+    fetchData()
+}
 function fetchData() {
-    data.list(from.value,to.value,houseName.value,warehouseName.value).then(res => {
+    data.list(from.value,to.value,houseName.value,warehouseName.value,currentpage.value,size.value).then(res => {
         list.value = res.data.value
     })
 }

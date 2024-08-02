@@ -3,7 +3,7 @@
         <el-button @click="addDialog = true" type="primary">新增</el-button>
     </div>
     <div>
-        <el-table :data="list" border>
+        <el-table :data="list?.records" border>
             <!-- <el-table-column prop="id" label="ID" /> -->
 
             <el-table-column prop="username" label="用户名" />
@@ -25,10 +25,11 @@
                 <template #default="scope">
                     <!-- {{ scope.row.id }} -->
                     <el-button type="primary" size="small" @click="() => {current= scope.row;updateDialog = true;}">编辑</el-button>
-                    <el-button type="danger" size="small" @click="() => user.deleteById(scope.row.id).then(() => fetchData())">删除</el-button>
+                    <el-button v-if="scope.row.username != 'admin'" type="danger" size="small" @click="() => user.deleteById(scope.row.id).then(() => fetchData())">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
+        <el-pagination @current-change="pagechange" :default-page-size="size"  :page-count="list?.pages" layout="prev, pager, next"  />
     </div>
     <AddDialog :priv-list="privList" :kv="kv" :dialog-visible="addDialog" @refresh="fetchData" @close="addDialog = false"></AddDialog>
     <UpdateDialog :priv-list="privList" :kv="kv" :current="current!" :dialog-visible="updateDialog" @refresh="fetchData" @close="updateDialog = false"></UpdateDialog>
@@ -37,22 +38,29 @@
 import { ref } from 'vue'
 import user , { type type_User ,privList} from '@/api/user';
 import house from '@/api/house';
+import warehouse from '@/api/warehouse';
 import AddDialog from './AddDialog.vue';
 import UpdateDialog from './UpdateDialog.vue';
-const list = ref<type_User[]>([])
+const list = ref<Page<type_User>>()
 const addDialog = ref(false)
 const updateDialog = ref(false)
 const current = ref<type_User>()
+const currentpage = ref(1)
+const size = ref(10)
 function fetchData() {
-    user.list().then(res => {
+    user.list(currentpage.value,size.value).then(res => {
         list.value = res.data.value
     })
+}
+function pagechange(page:number) {
+    currentpage.value = page
+    fetchData()
 }
 const kv = ref<any[]>([{
     value: '总公司',
     key: 0
     }])
-house.kv().then(res => {
+    warehouse.kv().then(res => {
     kv.value.push(...res.data.value)
     
 })

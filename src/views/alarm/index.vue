@@ -1,16 +1,17 @@
 <template>
     <div>
-        {{ user.getUserDetail() }}
     </div>
-    <div class=" flex">
+    <div class=" flex mb-4">
         <div>
-            <div>level
+            <div>报警级别
                 <el-checkbox-group v-model="levels">
                     <el-checkbox :disabled="!user.getPriv()?.includes('1')" label="一般报警" value="一般报警" size="large" />
                     <el-checkbox :disabled="!user.getPriv()?.includes('2')" label="严重报警" value="严重报警" size="large" />
                 </el-checkbox-group>
             </div>
-            <div>type
+            <div class=" flex">
+                <div>
+                    类型
                 <el-checkbox-group v-model="types">
                     <el-checkbox value="发热" label="发热" size="large" />
                     <el-checkbox value="不连续" label="不连续" size="large" />
@@ -19,6 +20,15 @@
                     <el-checkbox value="空仓" label="空仓" size="large" />
                     <el-checkbox value="备用类型" label="备用类型" size="large" />
                 </el-checkbox-group>
+                </div>
+                <div class="ml-8 pl-4 border-l ">
+                    审核
+                <el-checkbox-group v-model="verifies">
+                    <el-checkbox  label="已审核" value="true" size="large" />
+                    <el-checkbox  label="未审核" value="false" size="large" />
+                </el-checkbox-group>   
+                </div>
+
             </div>
         </div>
         <div>
@@ -26,7 +36,7 @@
         </div>
     </div>
     <div>
-        <el-table :data="alarmList" border>
+        <el-table :data="alarmList?.records" border>
             <!-- <el-table-column prop="id" label="ID" /> -->
             <el-table-column prop="alarm.houseID" label="仓房编号" />
             <el-table-column prop="alarm.alertPos" label="位置"   />
@@ -52,6 +62,8 @@
                 </template>
             </el-table-column>
         </el-table>
+
+        <el-pagination @current-change="pagechange" :default-page-size="size"  :page-count="alarmList?.pages ? alarmList?.pages : 0" layout="prev, pager, next"  />
     </div>
     <handle :id="currentid" :dialogVisible="handleDialog" @close="handleDialog = false" @refresh="fetchData"></handle>
     <ShowHandle :handle="currentHandle" :dialogVisible="showHandleDialog" @close="showHandleDialog = false"></ShowHandle>
@@ -64,14 +76,21 @@ import ShowHandle from './ShowHandle.vue';
 import { useCurrentUserStore } from '@/stores/currentUser';
 const levels = ref<string[]>([])
 const types = ref<string[]>([])
-const alarmList = ref<type_Alarm[]>([])
+const verifies = ref(<string[]>[])
+const alarmList = ref<Page<type_Alarm>>()
 const currentid = ref(undefined)
 const currentHandle = ref('')
 const handleDialog = ref(false)
 const showHandleDialog = ref(false)
 const user = useCurrentUserStore()
+const currentpage = ref(1)
+const size = ref(10)
+function pagechange(page: number) {
+    currentpage.value = page
+    fetchData()
+}
 function fetchData() {
-    alarm.list(levels.value, types.value).then(res => {
+    alarm.list(levels.value, types.value,verifies.value, currentpage.value, size.value).then(res => {
         alarmList.value = res.data.value
     })
 }

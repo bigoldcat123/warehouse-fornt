@@ -11,6 +11,15 @@ declare type ResponseData<T> = {
     show:boolean,
     value:T
 }
+
+declare type Page<T> = {
+    records: T[],
+    total: number,
+    size: number,
+    current: number,
+    pages: number
+}
+
 //com.example.demo.common.CurrentUser
 declare type UserDetail = {
     id:string
