@@ -21,7 +21,7 @@
                     <el-tag class="mx-[1px]" v-show="scope.row.priv.length > 0"
                         v-for="item in scope.row.priv.split(',')" :key="item"
                         :type="item == 0 ? 'success' : item == 1 ? 'primary' : item == 2 ? 'danger' : 'warning'">{{
-                        privList[item] }}</el-tag>
+                            privList[item] }}</el-tag>
                 </template>
             </el-table-column>
             <el-table-column label="操作">
@@ -29,8 +29,18 @@
                     <!-- {{ scope.row.id }} -->
                     <el-button type="primary" size="small"
                         @click="() => { current = scope.row; updateDialog = true; }">编辑</el-button>
-                    <el-button v-if="scope.row.username != 'admin'" type="danger" size="small"
-                        @click="() => user.deleteById(scope.row.id).then(() => fetchData())">删除</el-button>
+
+                    <!-- <el-button v-if="scope.row.username != 'admin'" type="danger" size="small"
+                        @click="() => user.deleteById(scope.row.id).then(() => fetchData())">删除</el-button> -->
+
+                    <el-popconfirm 
+                    v-if="scope.row.username != 'admin'" type="danger" size="small"
+                    @confirm="() => user.deleteById(scope.row.id).then(() => fetchData())" title="确定删除?">
+                        <template #reference>
+                            <el-button>删除</el-button>
+                        </template>
+                    </el-popconfirm>
+
                 </template>
             </el-table-column>
         </el-table>
@@ -55,7 +65,7 @@ const addDialog = ref(false)
 const updateDialog = ref(false)
 const current = ref<type_User>()
 const currentpage = ref(1)
-const size = ref(10)
+const size = ref(import.meta.env.ENV_PAGE_SIZE)
 function fetchData() {
     user.list(currentpage.value, size.value).then(res => {
         list.value = res.data.value

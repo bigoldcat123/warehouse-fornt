@@ -43,7 +43,7 @@ const to = ref<string | null>(null)
 const houseName = ref<string | null>(null)
 const warehouseName = ref<string | null>(null)
 const currentpage = ref(1)
-const size = ref(10)
+const size = ref(import.meta.env.ENV_PAGE_SIZE)
 function pagechange(page:number) {
     currentpage.value = page
     fetchData()

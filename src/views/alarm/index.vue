@@ -84,7 +84,7 @@ const handleDialog = ref(false)
 const showHandleDialog = ref(false)
 const user = useCurrentUserStore()
 const currentpage = ref(1)
-const size = ref(10)
+const size = ref(import.meta.env.ENV_PAGE_SIZE)
 function pagechange(page: number) {
     currentpage.value = page
     fetchData()

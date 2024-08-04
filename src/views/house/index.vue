@@ -63,7 +63,7 @@ warehouse.belongKv().then(res => {
 })
 
 const currentpage = ref(1)
-const size = ref(10)
+const size = ref(import.meta.env.ENV_PAGE_SIZE)
 function fetchData() {
     house.list(currentpage.value,size.value).then(res => {
         list.value = res.data.value
